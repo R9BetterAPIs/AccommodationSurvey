@@ -6,7 +6,7 @@ This is based on the [Heroku HTTP API Design Guide](https://github.com/interagen
 
 The API will be REST based and only provide a single POST message.
 
-The API will be versioned and the version number will be included as first parameter in the URL, e.g. 'api.stats.govt.nz/api/v1/survey'.
+The API will be versioned and the version number will be included as first parameter in the URL, e.g. `api.stats.govt.nz/api/v1/survey`.
 
 Authentication will be done through the use of API keys. There will be one API key for each PMS provider.
 
