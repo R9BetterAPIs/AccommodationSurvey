@@ -28,25 +28,60 @@ api-key         The Api key of the PMS provider/intermediary
 request-id      A client set correlation id that will be returned with each response and can help with debugging.
 ```
 
-The actual survey data will be sent as strutured JSON in the POST request body. This will allow for multiple accommodation providers and multiple time frames to be submitted in a single request.
-```
-{
-  "provider": {
-    "provider-id": "123456",
-    "survey-data": {
-      "year": "2014",
-      "month": "11",
-      "total-stay-unit-nights": "90",
-      "total-nz-guests": "60",
-      "total-overseas-guests": "50",
-      "total-unknown-residence": "10",
-      "total-guest-nights": "120",
-      "total-guest-arrivals": "85",
-      "number-of-stay-units": "8"
-    }
-  }
-}
+These initial parameters need to be provided as GET parameters in the URL. The reason to separate these from the survey payload is the future option to re-use this endpoint for other suryeys.
 
+`api.stats.govt.nz/api/v1/survey?survey-type=Accommodation&api-key=123456789abcdef&request-id=123xyz`
+
+The actual survey data will be sent as structured JSON in the POST request body. This will allow for multiple accommodation providers and multiple time frames to be submitted in a single request.
+
+```
+{  
+  "provider":[  
+    {  
+      "provider-id":"123456",
+      "survey-data":[  
+        {  
+          "year":2014,
+          "month":11,
+          "total-stay-unit-nights":90,
+          "total-nz-guests":60,
+          "total-overseas-guests":50,
+          "total-unknown-residence":10,
+          "total-guest-nights":120,
+          "total-guest-arrivals":85,
+          "number-of-stay-units":8
+        }
+      ]
+    },
+    {  
+      "provider-id":"abc789",
+      "survey-data":[  
+        {  
+          "year":2014,
+          "month":11,
+          "total-stay-unit-nights":45,
+          "total-nz-guests":30,
+          "total-overseas-guests":25,
+          "total-unknown-residence":5,
+          "total-guest-nights":60,
+          "total-guest-arrivals":42,
+          "number-of-stay-units":4
+        },
+        {  
+          "year":2014,
+          "month":10,
+          "total-stay-unit-nights":39,
+          "total-nz-guests":35,
+          "total-overseas-guests":23,
+          "total-unknown-residence":2,
+          "total-guest-nights":60,
+          "total-guest-arrivals":32,
+          "number-of-stay-units":4
+        }
+      ]
+    }
+  ]
+}
 ```
 
 #### Response
