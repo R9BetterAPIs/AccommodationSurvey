@@ -1,4 +1,4 @@
-# AccomodationSurvey
+# AccommodationSurvey
 
 ## Foundations
 
@@ -23,12 +23,12 @@ Times will be specified as per [ISO 8601 standard](http://en.wikipedia.org/wiki/
 #### Parameters
 
 ```
-survey-type     The type of survey this request is for, e.g. `Accomodation`
+survey-type     The type of survey this request is for, e.g. `Accommodation`
 api-key         The Api key of the PMS provider/intermediary
 request-id      A client set correlation id that will be returned with each response and can help with debugging.
 ```
 
-The actual survey data will be sent as strutured JSON in the POST request body. This will allow for multiple accomodation providers and multiple time frames to be submitted in a single request.
+The actual survey data will be sent as strutured JSON in the POST request body. This will allow for multiple accommodation providers and multiple time frames to be submitted in a single request.
 ```
 {
   "provider": {
@@ -54,7 +54,7 @@ The actual survey data will be sent as strutured JSON in the POST request body. 
 Status-codes ([reference](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)):
 * `201 Created`: Request successful
 * `400 Bad request`: The request could not be understood by the server
-* `401 Unauthorized`: Request failed because user is not authenticated
+* `401 Unauthorised`: Request failed because user is not authenticated
 * `403 Forbidden`: Request failed because user does not have authorization to access a specific resource
 * `429 Too Many Requests`: You have been rate-limited, retry later
 * `500 Internal Server Error`: Something went wrong on the server, check status site and/or report the issue
