@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Accommodationsurvey by R9BetterAPIs</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Accommodationsurvey</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/R9BetterAPIs/AccommodationSurvey">View the Project on GitHub <small>R9BetterAPIs/AccommodationSurvey</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/R9BetterAPIs/AccommodationSurvey/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/R9BetterAPIs/AccommodationSurvey/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/R9BetterAPIs/AccommodationSurvey">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="accommodationsurvey" class="anchor" href="#accommodationsurvey" aria-hidden="true"><span class="octicon octicon-link"></span></a>AccommodationSurvey</h1>
+
+<h2>
+<a id="foundations" class="anchor" href="#foundations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Foundations</h2>
+
+<p>This is based on the <a href="https://github.com/interagent/http-api-design">Heroku HTTP API Design Guide</a> and the <a href="https://github.com/18F/api-standards">18F API Standards</a>.</p>
+
+<p>The API will be REST based and only provide a single POST message.</p>
+
+<p>The API will be versioned and the version number will be included as first parameter in the URL, e.g. <code>api.stats.govt.nz/api/v1/survey</code>.</p>
+
+<p>Authentication will be done through the use of API keys. There will be one API key for each PMS provider.</p>
+
+<p>No caching required.</p>
+
+<p>No pagination required.</p>
+
+<p>The character set will be UTF-8 for everything.</p>
+
+<p>Times will be specified as per <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601 standard</a>.</p>
+
+<h3>
+<a id="post-survey" class="anchor" href="#post-survey" aria-hidden="true"><span class="octicon octicon-link"></span></a>'POST /survey'</h3>
+
+<h4>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h4>
+
+<pre><code>survey-type     The type of survey this request is for, e.g. `Accommodation`
+api-key         The Api key of the PMS provider/intermediary
+request-id      A client set correlation id that will be returned with each response and can help with debugging.
+</code></pre>
+
+<p>These initial parameters need to be provided as GET parameters in the URL. The reason to separate these from the survey payload is the future option to re-use this endpoint for other suryeys.</p>
+
+<p><code>api.stats.govt.nz/api/v1/survey?survey-type=Accommodation&amp;api-key=123456789abcdef&amp;request-id=123xyz</code></p>
+
+<p>The actual survey data will be sent as structured JSON in the POST request body. The API will allow for one data set of a single accommodation provider to be submitted in each request.</p>
+
+<pre><code>{  
+  "statistics-id":"AB1234567",
+  "year":2014,
+  "month":11,
+  "total-stay-unit-nights":90,
+  "total-nz-guests":60,
+  "total-overseas-guests":50,
+  "total-unknown-residence":10,
+  "total-guest-nights":120,
+  "total-guest-arrivals":85,
+  "number-of-stay-units":8
+}
+</code></pre>
+
+<h4>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span class="octicon octicon-link"></span></a>Response</h4>
+
+<p>Status-codes (<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">reference</a>):</p>
+
+<ul>
+<li>
+<code>201 Created</code>: Request successful</li>
+<li>
+<code>400 Bad request</code>: The request could not be understood by the server</li>
+<li>
+<code>401 Unauthorised</code>: Request failed because user is not authenticated</li>
+<li>
+<code>403 Forbidden</code>: Request failed because user does not have authorization to access a specific resource</li>
+<li>
+<code>429 Too Many Requests</code>: You have been rate-limited, retry later</li>
+<li>
+<code>500 Internal Server Error</code>: Something went wrong on the server, check status site and/or report the issue</li>
+</ul>
+
+<p>Successful request</p>
+
+<pre><code>{
+  "status": "Ok",
+  "timestamp": "2014-11-25T11:08:21+12:00",
+  "request-id": "01234567-89ab-cdef-0123-456789abcdef"
+}
+</code></pre>
+
+<p>Erroneous request</p>
+
+<pre><code>{
+  "status": "Error",
+  "error-id": "234",
+  "error-message": "Invalid provider-id, please provide a valid provider-id",
+  "case-number": "2354234",
+  "support-contact": "api-support@stats.govt.nz or +64-(4)-123 456 789",
+  "timestamp": "2014-11-25T11:08:21+12:00",
+  "request-id": "01234567-89ab-cdef-0123-456789abcdef"
+}
+</code></pre>
+
+<h3>
+<a id="security" class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h3>
+
+<p>The API will use TLS for encryption and will only have an HTTPS endpoint (no endpoint on port 80).</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/R9BetterAPIs">R9BetterAPIs</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
