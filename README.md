@@ -75,7 +75,8 @@ Erroneous request
   "error-id": "234",
   "error-message": "Invalid provider-id, please provide a valid provider-id",
   "case-number": "2354234",
-  "support-contact": "api-support@stats.govt.nz or +64-(4)-123 456 789",
+  "support-email": "api-support@stats.govt.nz",
+  "support-phone": "+64-(4)-123 456 789",
   "timestamp": "2014-11-25T11:08:21+12:00",
   "request-id": "01234567-89ab-cdef-0123-456789abcdef"
 }
